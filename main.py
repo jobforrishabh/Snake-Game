@@ -6,8 +6,7 @@ pygame.init()
 
 SW, SH = 800, 800
 
-BLOCK_SIZE = 50
-FONT = pygame.font.Font("Pacifico.ttf", BLOCK_SIZE * 2)
+BLOCK_SIZE = 45
 
 screen = pygame.display.set_mode((800, 800))
 pygame.display.set_caption("Snake!")
@@ -96,7 +95,7 @@ while True:
             elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 snake.ydir = 0
                 snake.xdir = -1
-            elif event.key == pygame.K_SPACE:  
+            elif event.key == pygame.K_SPACE:
                 paused = not paused
 
     if not paused:
