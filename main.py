@@ -7,7 +7,7 @@ pygame.init()
 SW, SH = 800, 800
 
 BLOCK_SIZE = 50
-FONT = pygame.font.Font("Pacifico.ttf", BLOCK_SIZE*2)
+FONT = pygame.font.Font("Pacifico.ttf", BLOCK_SIZE * 2)
 
 screen = pygame.display.set_mode((800, 800))
 pygame.display.set_caption("Snake!")
@@ -76,6 +76,7 @@ drawGrid()
 snake = Snake()
 apple = Apple()
 highest_score = 0
+paused = False  # Track whether the game is paused
 
 while True:
     for event in pygame.event.get():
@@ -95,25 +96,27 @@ while True:
             elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 snake.ydir = 0
                 snake.xdir = -1
+            elif event.key == pygame.K_SPACE:  
+                paused = not paused
 
-    snake.update()
+    if not paused:
+        snake.update()
 
-    screen.fill("black")
-    drawGrid()
-    apple.update()
+        screen.fill("black")
+        drawGrid()
+        apple.update()
 
-    current_score = len(snake.body) - 1
-    highest_score = max(highest_score, current_score)
-    draw_scores(current_score, highest_score)
+        current_score = len(snake.body) - 1
+        highest_score = max(highest_score, current_score)
+        draw_scores(current_score, highest_score)
 
-    pygame.draw.rect(screen, "green", snake.head)
-    for square in snake.body:
-        pygame.draw.rect(screen, "green", square)
+        pygame.draw.rect(screen, "green", snake.head)
+        for square in snake.body:
+            pygame.draw.rect(screen, "green", square)
 
-    if snake.head.x == apple.x and snake.head.y == apple.y:
-        snake.body.append(pygame.Rect(square.x, square.y, BLOCK_SIZE,
-                                      BLOCK_SIZE))
-        apple = Apple()
+        if snake.head.x == apple.x and snake.head.y == apple.y:
+            snake.body.append(pygame.Rect(square.x, square.y, BLOCK_SIZE, BLOCK_SIZE))
+            apple = Apple()
 
     pygame.display.update()
     clock.tick(8)
